@@ -1,7 +1,9 @@
 import express from "express";
 import  UsersModel  from "../models/Users_model.js"
+import fs from "fs"
 
 import bcrypt from "bcryptjs"
+const saltRounds = 10
 import jwt from "jsonwebtoken"
 import uniqueValidator from "mongoose-unique-validator"
 
@@ -12,11 +14,15 @@ import uniqueValidator from "mongoose-unique-validator"
             const { email, user, pwd, age } = req.body;
             //2. if client app does not send data in the request body then return an error message:
             if (!email || !user || !pwd || !age) return res.status(400).json({'error': 'All fields are required'})
+            // generate salt
+
             //3. encrypt and salt the incoming password
-            const encryptedPassword =  bcrypt.hash(pwd, 10);
+             
             //4. create the new user document (with password hashed/salted)
             try {
-                await UsersModel.create({email: `${email}`, username: `${user}`, password: `${encryptedPassword}}`, age: `${age}`})
+                bcrypt.hash(pwd, saltRounds, async function (err, hash){
+                   await UsersModel.create({email: `${email}`, username: `${user}`, password: hash, age: `${age}`})
+                })
                 res.send({'success': 'new user created'})
                 next();
                 } 
@@ -35,31 +41,39 @@ import uniqueValidator from "mongoose-unique-validator"
         const handleLogin = async (req, res, next) => {
             // the route this function belongs to will require {username: username, password: password} from the client 
             // deconstruct/extract data from request body sent by client 
-            const { user, pwd } = req.body;
+            const { usr, pwd } = req.body;
             // if client app does not send data in the request body then return an error message:
-            if (!user || !pwd) return res.staus(400).json({'message': 'Username and password must be provided'})
+            if (!usr || !pwd) return res.send({'message': 'Username and password must be provided'})
             // build a select statement to query mongoDB User collection for the entered username
-            const foundUsername = UsersModel.find({username: `${user}`})
+            const foundUsername = await UsersModel.find({username: `${usr}`})
             // if username does not exist in database, then return a no-data error message:
-            if (!foundUsername) return res.staus(400).json({'message': 'Username or password is invalid'})
+            if (!foundUsername){
+                 return res.status(400).res.send({'message': 'Username or password is invalid'})
+            }
             // if userame exists in system, then check the password against the stored encrypted password
-            const match = await bcrypt.compare(pwd, foundUsername.password);
-            // if the state of match is 'true':
+            const hashedpass = foundUsername[0].password
+            const match = await bcrypt.compare(pwd, hashedpass);
+            // if the state of match is 'true': 
+            try{
             if (match) {
                 // create a JWT for user that expires in 24 hrs (requiring a re-log in)
-                const accessToken = jwt.sign(
-                    foundUsername.username,
-                    process.env.TOKEN_SECRET,
-                    '1d' 
-                );
+                function getAccessToken(username){ 
+                    return jwt.sign(username,'secret', {expiresIn:'1d'})
+                };
+                const accessToken = getAccessToken({username: usr})
                 // return the token to the client:
-                res.json({ 'token' : accessToken})
+                res.send({ 'token' : accessToken})
+                next();
             } else {
-                // return error saying no data found 
+                // return error saying no data found if passwords dont match 
                 return res.status(400).json({'message': 'Username or password is invalid'})
+                next();
             }
-
-
+        }
+            catch (error) {
+                return res.send( {'error': error.message });
+                next();
+                }
         }
 
 export  {

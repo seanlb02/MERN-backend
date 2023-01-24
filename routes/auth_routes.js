@@ -12,19 +12,9 @@ const router = express.Router();
         router.post('/register', registerUser)
 
         //  route to log a user in (give them a token)
-        router.post('/auth/login', async (req, res) => {
-            try {
-                // this function/controller will return an access token (JWT)
-                handleLogin();
-            }
-            catch (err) {
-                // since the controller handles its own errors, the final error caught means an error in the app
-                res.status(500).send({'error' : 'Server error'})
-            }
-            
-        })
+        router.post('/login', handleLogin)
 
 
 
-        // export the router 
-        export default router 
+ // export the router 
+export default router 
