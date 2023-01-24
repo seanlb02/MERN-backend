@@ -13,11 +13,8 @@ import uniqueValidator from "mongoose-unique-validator"
             const { email, user, pwd, age } = req.body;
             //2. if client app does not send data in the request body then return an error message:
             if (!email || !user || !pwd || !age) return res.status(400).json({'error': 'All fields are required'})
-            // generate salt
-
-            //3. encrypt and salt the incoming password
-             
-            //4. create the new user document (with password hashed/salted)
+            // 3. generate salt, encrypt and salt the incoming password
+            // 4. create the new user document (with password hashed/salted)
             try {
                 bcrypt.hash(pwd, saltRounds, async function (err, hash){
                    await UsersModel.create({email: `${email}`, username: `${user}`, password: hash, age: `${age}`})

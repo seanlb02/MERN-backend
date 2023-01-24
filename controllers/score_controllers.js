@@ -6,7 +6,22 @@ import uniqueValidator from "mongoose-unique-validator"
 // middleware function to add the latest questionnaire score to the database
 
 const newScore = async (req, res, next) => {
+    //1. deconstruct the request body sent by client 
+    const { username, timestamp, score } = req.body;
+    //2. if client app does not send data in the request body then return an error message:
+    if (!username || !timestamp || !score) return res.status(400).json({'error': 'All fields are required'})
+    //3. create new score document for the logged in user  
+    try{
+        await ScoresModel.create({username: `${username}`, timestamp: `${timestamp}`, score: `${score}`})
+        res.send({'success': 'score added'})
+        next();
+    }
+    catch (error) {
+        return res.send( {'error': error.message });
+        next();
+    }
 
+    
 
 }
 

@@ -6,7 +6,7 @@ import bodyParser from 'body-parser'
 
 // import routes 
 import authRoutes from './routes/auth_routes.js'
-import scoresRoutes from './routes/scores.js'
+import scoresRoutes from './routes/score_routes.js'
 
 
 
@@ -37,7 +37,7 @@ mongoose.connect(process.env.ATLAS_DB_URL)
 
 // set up the relative links for the Routes
 app.use('/auth', authRoutes)
-app.use('/scores/', scoresRoutes)
+app.use('/scores', scoresRoutes)
 
 // tell express server to run on port 4001 (for development only)
 app.listen(port, () => console.log(`Server listening on port ${port}`))
