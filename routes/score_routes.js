@@ -7,7 +7,7 @@ const router = express.Router();
 // ROUTES //
 
         // route to retrieve a logged in user's latest score
-        router.get('/latest', getLastScore)
+        router.get('/:username/latest', getLastScore)
 
         // route to retrieve all scores from a logged in user (newest to oldest) 
         router.get('/all', getAllScores)

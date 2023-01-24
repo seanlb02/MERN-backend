@@ -20,15 +20,24 @@ const newScore = async (req, res, next) => {
         return res.send( {'error': error.message });
         next();
     }
-
-    
-
 }
 
 // middleware function to retrieve the latest questionnaire stored
 
 const getLastScore = async (req, res, next) => {
-
+    //1. deconstruct the username param sent by client within url 
+    const {username} = req.params
+    try{
+        const currentScore = await ScoresModel.findOne({username: username}, 'score').sort({timestamp: -1})
+        res.send({ 'current_user_score': currentScore });
+        next();
+    }
+    catch (error){
+        res.send({ 'error': error.message });
+        next();
+    }
+    
+    
 
 }
 // middleware function to retrieve the all questionnaire scores recorded 
