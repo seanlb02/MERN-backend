@@ -43,7 +43,17 @@ const getLastScore = async (req, res, next) => {
 // middleware function to retrieve the all questionnaire scores recorded 
 
 const getAllScores = async (req, res, next) => {
-
+        //1. deconstruct the username param sent by client within url 
+        const {username} = req.params
+        try{
+            const allScores = await ScoresModel.find({username: username}, 'score timestamp').sort({timestamp: -1})
+            res.send({ 'User_scores': allScores });
+            next();
+        }
+        catch (error){
+            res.send({ 'error': error.message });
+            next();
+        }
 
 }
 
