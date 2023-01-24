@@ -9,9 +9,6 @@ const entriesSchema = new mongoose.Schema({
     title: {type: String, required: true},
     text: {type: String, required: true},
     tags: {type: Array, "default": [], "required": true},
-    // or 
-    tag: {type: String, required: true}
-
 })
 
 const EntriesModel = mongoose.model("entry", entriesSchema)

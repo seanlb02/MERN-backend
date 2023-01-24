@@ -9,14 +9,14 @@ import uniqueValidator from "mongoose-unique-validator"
         //middleware is responsible for creating a new user document 
         const registerUser = async (req, res, next) => {
             //1. deconstruct the request body sent by client 
-            const { user, pwd, age } = req.body;
+            const { email, user, pwd, age } = req.body;
             //2. if client app does not send data in the request body then return an error message:
-            if (!user || !pwd || !age) return res.status(400).json({'error': 'All fields are required'})
+            if (!email || !user || !pwd || !age) return res.status(400).json({'error': 'All fields are required'})
             //3. encrypt and salt the incoming password
             const encryptedPassword =  bcrypt.hash(pwd, 10);
             //4. create the new user document (with password hashed/salted)
             try {
-                await UsersModel.create({username: `${user}`, password: `${encryptedPassword}}`, age: `${age}`})
+                await UsersModel.create({email: `${email}`, username: `${user}`, password: `${encryptedPassword}}`, age: `${age}`})
                 res.send({'success': 'new user created'})
                 next();
                 } 

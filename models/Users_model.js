@@ -5,6 +5,7 @@ import uniqueValidator from 'mongoose-unique-validator'
 
 // define the schema 
 const usersSchema = new mongoose.Schema({
+    email: {type: String, required: true, match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']},
     username: { type: String, required: true, unique: true },
     password: {type: String, required: true},
     age: {type: Date, required: true}, // defulat format for date is: 'YYYY-MM-DD'
