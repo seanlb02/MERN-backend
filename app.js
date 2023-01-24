@@ -1,7 +1,14 @@
 import express from "express";
 import mongoose from "mongoose"
 import dotenv from "dotenv"
-// import {authRoutes} from './routes/auth_routes'
+import cors from 'cors'
+import bodyParser from 'body-parser'
+
+// import routes 
+import authRoutes from './routes/auth_routes.js'
+
+
+
 
 // by configuring/initalising the dotenv file, we can use process.env method to interpolate the db URL string 
 dotenv.config()
@@ -15,6 +22,12 @@ const port = 4001
 // this middleware will take any json response from an express app route and parse it to a js object
 app.use(express.json())
 
+// enable cors
+app.use(cors())
+
+// enable bodyParser
+app.use(bodyParser.json())
+
 mongoose.set('strictQuery', true)
 
 // connect mongoose to the database 
@@ -24,7 +37,7 @@ mongoose.connect(process.env.ATLAS_DB_URL)
 
 // set up the relative links for the Routes/// (same as Flask blueprints)
 
-app.use('/auth', require('./routes/auth_routes'))
+app.use('/auth', authRoutes)
 
 // tell express server to run on port 4001 (for development only)
 app.listen(port, () => console.log(`Server listening on port ${port}`))

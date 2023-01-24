@@ -1,34 +1,34 @@
-import { Express } from "express";
-import { UsersModel } from "../models/Users_model"
+import express from "express";
+import  UsersModel  from "../models/Users_model.js"
 
-const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+import uniqueValidator from "mongoose-unique-validator"
 
 
-
-// All functions that are nested in auth routes go in this file 
-
-        // this function/middleware is responsible for creating a new user document 
+        //middleware is responsible for creating a new user document 
         const registerUser = async (req, res, next) => {
-            //1. deconstruct/extract variables from the request body sent by client 
-            const { user, pwd, email } = req.body;
+            //1. deconstruct the request body sent by client 
+            const { user, pwd, age } = req.body;
             //2. if client app does not send data in the request body then return an error message:
-            if (!user || !pwd || !email) return res.staus(400).json({'message': 'All fields are required'})
+            if (!user || !pwd || !age) return res.status(400).json({'error': 'All fields are required'})
             //3. encrypt and salt the incoming password
-            const encryptedPassword = await bcrypt.hash(pwd, salt);
-            //4. create the new user document (with password encrypted)
+            const encryptedPassword =  bcrypt.hash(pwd, 10);
+            //4. create the new user document (with password hashed/salted)
             try {
-                UsersModel.create({username: `${user}`, password: `${encryptedPassword}}`, email: `${email}`})
-                return res.send(200, {'success': 'new user created'});
-            } 
+                await UsersModel.create({username: `${user}`, password: `${encryptedPassword}}`, age: `${age}`})
+                res.send({'success': 'new user created'})
+                next();
+                } 
             catch (error) {
-                // if we get a mongoosee verification error (since we set username to unique) send it to client:
-                console.log(JSON.stringify(error));
-                if(error.code === 11000){
-                    return res.send({status:'error',error:'username already exists'})
+                return res.send( {'error': error.message });
+                next();
                 }
-            }
+            
         }
+            
+            
+        
 
 
         // this function/middleware takes a request body and cross-checks it with the database, then returns a token if exits 
@@ -56,7 +56,7 @@ const jwt = require('jsonwebtoken');
                 res.json({ 'token' : accessToken})
             } else {
                 // return error saying no data found 
-                return res.staus(400).json({'message': 'Username or password is invalid'})
+                return res.status(400).json({'message': 'Username or password is invalid'})
             }
 
 
