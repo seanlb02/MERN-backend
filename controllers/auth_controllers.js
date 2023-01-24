@@ -1,6 +1,5 @@
 import express from "express";
 import  UsersModel  from "../models/Users_model.js"
-import fs from "fs"
 
 import bcrypt from "bcryptjs"
 const saltRounds = 10
@@ -34,9 +33,6 @@ import uniqueValidator from "mongoose-unique-validator"
         }
             
             
-        
-
-
         // this function/middleware takes a request body and cross-checks it with the database, then returns a token if exits 
         const handleLogin = async (req, res, next) => {
             // the route this function belongs to will require {username: username, password: password} from the client 

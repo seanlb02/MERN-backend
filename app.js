@@ -6,7 +6,7 @@ import bodyParser from 'body-parser'
 
 // import routes 
 import authRoutes from './routes/auth_routes.js'
-
+import scoresRoutes from './routes/scores.js'
 
 
 
@@ -35,9 +35,9 @@ mongoose.connect(process.env.ATLAS_DB_URL)
 .then((m) => console.log(m.connection.readyState === 1 ? 'Mongoose connected!' : 'Failed to connect'))
 .catch((err) => console.log(err))
 
-// set up the relative links for the Routes/// (same as Flask blueprints)
-
+// set up the relative links for the Routes
 app.use('/auth', authRoutes)
+app.use('/scores/', scoresRoutes)
 
 // tell express server to run on port 4001 (for development only)
 app.listen(port, () => console.log(`Server listening on port ${port}`))
