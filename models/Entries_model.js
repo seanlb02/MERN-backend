@@ -14,3 +14,4 @@ const entriesSchema = new mongoose.Schema({
 const EntriesModel = mongoose.model("entry", entriesSchema)
 
 export default EntriesModel 
+
