@@ -19,7 +19,7 @@ dotenv.config()
 process.env.TOKEN_SECRET;
 
 const app = express();
-const port = 4003
+const port = 4004
 
 // this middleware will take any json response from an express app route and parse it to a js object
 app.use(express.json())

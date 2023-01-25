@@ -1,7 +1,7 @@
 import express from 'express';
 
 // import controllers/middleware 
-import { getAllUsers, getUserData, updateMemo } from '../controllers/user_controllers.js';
+import { deleteSelf, getAllUsers, getUserData, updateMemo } from '../controllers/user_controllers.js';
 import { authenticateToken, checkAdmin } from '../controllers/auth_controllers.js';
 
 const router = express.Router();
@@ -17,7 +17,7 @@ router.get ('/data', authenticateToken, getUserData)
 router.patch('/memo/update', authenticateToken, updateMemo)
 
 // route for logged in user to delete their account
-router.delete('/account/delete', authenticateToken )
+router.delete('/account/delete', authenticateToken, deleteSelf)
 
 
 // export the router 

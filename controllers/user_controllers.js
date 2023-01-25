@@ -1,5 +1,7 @@
 import express from "express";
 import  UsersModel  from "../models/Users_model.js"
+import EntriesModel from "../models/Entries_model.js";
+import ScoresModel from "../models/Score_model.js";
 import uniqueValidator from "mongoose-unique-validator"
 
 
@@ -13,6 +15,7 @@ import uniqueValidator from "mongoose-unique-validator"
         const {username} = req.params
         const userData = await UsersModel.find({username:username}).select('-_id -__v -password')
         res.send(userData)
+        next();
     }
 
     // middleware function get all user data (admins only)
@@ -28,15 +31,39 @@ import uniqueValidator from "mongoose-unique-validator"
         const {memo} = req.body
         
         const filter = { username: username };
+        try {
         const update = { memo: memo };
         const newMemo = await UsersModel.findOneAndUpdate(filter, update)
         res.send({'success': 'memo updated successfully'})
+        next();
+        }
+        catch (err) {
+            res.send({'error': err.message})
+        }
+
+    }
+
+    // function for user to delete their account 
+    const deleteSelf = async function(req, res, next) {
+        const {username} = req.params
+        try {
+        // delete the user, their entries, their scores 
+        const remove = await UsersModel.deleteOne({username: username})
+        const removeEntries = await EntriesModel.deleteMany({username: username})
+        const removeScores = await ScoresModel.deleteMany({username: username})
+        next()
+        } 
+        catch (err) {
+            res.send({'error': err.message})
+        }
+
     }
 
 
     export {
         getUserData,
         getAllUsers,
-        updateMemo
+        updateMemo,
+        deleteSelf,
     }
 

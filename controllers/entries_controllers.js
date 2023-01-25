@@ -5,7 +5,7 @@ import  EntriesModel  from "../models/Entries_model.js"
 // middleware function to return logged in user's entries in order of latest to oldest
 const getUserEntries = async function (req, res, next) {
         const {username} = req.params
-        const allEntries = EntriesModel.find({username : username}).sort({timestamp: -1})
+        const allEntries = await EntriesModel.find({username : username}).sort({timestamp: -1})
         res.send(allEntries)
         next();
     }
