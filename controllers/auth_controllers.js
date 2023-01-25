@@ -69,7 +69,45 @@ import uniqueValidator from "mongoose-unique-validator"
                 }
         }
 
+        // AUTHORISATION MIDDLEWARE: (authenticates token and checks if admin)
+
+        //  this middleware insists that each authourisation header for each route request has the token stored in client storage
+        const authenticateToken = async function(req, res, next) {
+                // extract the token from the authorization header, remove quotes of exists 
+                const authHeader = req.headers['authorization']
+                // if no token is sent in request, relay an error:
+                if(!authHeader){
+                    res.send( {'error': 'no token provided'} );
+                }
+                // if there is an authorization token sent then continue
+                const token = authHeader && authHeader.split(' ')[1]
+                //   if  token cant be parsed, relay an error back to client 
+                if (token == null) return res.sendStatus(401)
+                //   verify the token if exists:
+                jwt.verify(token, 'secret', (err, user) => {
+                    req.params = user
+
+                    if(err){
+                        res.send({'error': err.message})
+                    }
+                //   if no error is raised by verify() then proceed to next middleware in the route 
+                else{ next();}
+                })
+        }
+
+        const checkAdmin = async function(req, res, next) {
+                const {username} = req.params
+                const admin = await UsersModel.find({username: username, is_admin: true})
+                if (admin.length > 0) {
+                    next();
+                }
+                else {return res.send({'error': 'unauthorized access'})}
+            
+        }
+
 export  {
     registerUser,
-    handleLogin
+    handleLogin,
+    authenticateToken,
+    checkAdmin
 }
