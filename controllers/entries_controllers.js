@@ -4,7 +4,7 @@ import  EntriesModel  from "../models/Entries_model.js"
 
 // middleware function to return logged in user's entries in order of latest to oldest
 const getUserEntries = async function (req, res, next) {
-        const {username} = req.params
+        const {username} = req.params.username
         const allEntries = await EntriesModel.find({username : username}).sort({timestamp: -1})
         res.send(allEntries)
         next();
@@ -12,7 +12,7 @@ const getUserEntries = async function (req, res, next) {
 
 // middleware function to post a new entry to the database
     const postEntry = async function (req, res, next) {
-    const {username} = req.params
+    const {username} = req.params.username
     const {timestamp, title, text, tags} = req.body 
     const tagItems = [...tags]
     //If client app does not send data in the request body then return an error message:
@@ -28,6 +28,12 @@ const getUserEntries = async function (req, res, next) {
     }
     }
 
+    // get a list of entry tags from specified date 
+    const getDailyTag = async function (req, res, next) {
+
+
+
+    }
 
 export {
     getUserEntries,

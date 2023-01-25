@@ -12,7 +12,7 @@ import uniqueValidator from "mongoose-unique-validator"
 
     const getUserData = async function(req, res, next) {
         // note: the req.params are set by the JWT authenticator middleware! and not in the route URL
-        const {username} = req.params
+        const {username} = req.params.username
         const userData = await UsersModel.find({username:username}).select('-_id -__v -password')
         res.send(userData)
         next();
@@ -27,7 +27,7 @@ import uniqueValidator from "mongoose-unique-validator"
 
     //  function for user to update their memo 
     const updateMemo = async function(req, res, next) {
-        const {username} = req.params 
+        const {username} = req.params.username 
         const {memo} = req.body
         
         const filter = { username: username };
@@ -45,7 +45,7 @@ import uniqueValidator from "mongoose-unique-validator"
 
     // function for user to delete their account 
     const deleteSelf = async function(req, res, next) {
-        const {username} = req.params
+        const {username} = req.params.username
         try {
         // delete the user, their entries, their scores 
         const remove = await UsersModel.deleteOne({username: username})
@@ -56,14 +56,38 @@ import uniqueValidator from "mongoose-unique-validator"
         catch (err) {
             res.send({'error': err.message})
         }
+    }
+
+    // function to search usernames in the database - returns a simple string username if exists
+    const searchUsernames = async function(req, res, next) {
+        
+        const user = req.params.user
+        try {
+            const result = await UsersModel.find({username:user}, 'username').select('-_id')
+            if(result.length > 0) {
+                res.send(result)
+                next();
+            }
+            else {
+                res.status(400).send({'error': 'user not found'});
+                next();
+            }
+        }
+        catch (err) {
+            res.send({'error': err.message})
+            next();
+        }
+
 
     }
 
+    // function to add usernames to logged in user's 
 
     export {
         getUserData,
         getAllUsers,
         updateMemo,
         deleteSelf,
+        searchUsernames
     }
 

@@ -85,7 +85,7 @@ import uniqueValidator from "mongoose-unique-validator"
                 if (token == null) return res.sendStatus(401)
                 //   verify the token if exists:
                 jwt.verify(token, 'secret', (err, user) => {
-                    req.params = user
+                    req.params.username = user
 
                     if(err){
                         res.send({'error': err.message})
@@ -96,7 +96,7 @@ import uniqueValidator from "mongoose-unique-validator"
         }
 
         const checkAdmin = async function(req, res, next) {
-                const {username} = req.params
+                const {username} = req.params.username
                 const admin = await UsersModel.find({username: username, is_admin: true})
                 if (admin.length > 0) {
                     next();
