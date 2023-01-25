@@ -28,14 +28,42 @@ const getUserEntries = async function (req, res, next) {
     }
     }
 
-    // get a list of entry tags from specified date 
+    // get a list of entry tags from the CURRENT date 
     const getDailyTag = async function (req, res, next) {
+        // generate const of the current date when the route was hit 
+        const todaysDate = new Date();
+        const {username} = req.params.username;
+        try {
+            const tag = await EntriesModel.find({username: username, timestamp: {$gt: todaysDate}}, 'tags timestamp').select('-_id')
+            res.send(tag);
+            next();
+        }
+        catch (err) {
+            res.send({'error': err.message});
+            next();
+        }
+    }
 
-
-
+    // get a list of entry tags from the PAST 30 days from current date 
+    const getMonthsTags = async function (req, res, next) {
+        // generate current date and the date 30 day prior 
+            const {username} = req.params.username;
+            const currentDate = new Date();
+            const past30 = currentDate.setDate(currentDate.getDate() - 30);
+            try {
+                const monthsTags = await EntriesModel.find({username: username, timestamp: {$gt: past30}}, 'tags timestamp').sort({timestamp: -1}).select('-_id')
+                res.send(monthsTags);
+                next();
+            }
+            catch (err) {
+                res.send({'error': err.message});
+                next();
+            }
     }
 
 export {
     getUserEntries,
     postEntry,
+    getDailyTag,
+    getMonthsTags
 }
