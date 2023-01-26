@@ -42,6 +42,20 @@ import uniqueValidator from "mongoose-unique-validator"
         }
 
     }
+// middleware for an admin to delete a specified user (admin protected route)
+    const deleteUser = async function(req, res, next) {
+        const {username} = req.params.user
+        try {
+        // delete the user, their entries, their scores 
+        const remove = await UsersModel.deleteOne({username: username})
+        const removeEntries = await EntriesModel.deleteMany({username: username})
+        const removeScores = await ScoresModel.deleteMany({username: username})
+        next()
+        } 
+        catch (err) {
+            res.send({'error': err.message})
+        }
+    }
 
     // function for user to delete their account 
     const deleteSelf = async function(req, res, next) {
@@ -81,13 +95,13 @@ import uniqueValidator from "mongoose-unique-validator"
 
     }
 
-    // function to add usernames to logged in user's 
 
     export {
         getUserData,
         getAllUsers,
         updateMemo,
         deleteSelf,
-        searchUsernames
+        searchUsernames,
+        deleteUser
     }
 

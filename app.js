@@ -9,6 +9,7 @@ import authRoutes from './routes/auth_routes.js'
 import scoresRoutes from './routes/score_routes.js'
 import userRoutes from './routes/user_routes.js'
 import entriesRoutes from './routes/entries_routes.js'
+import trackRoutes from './routes/track_routes.js'
 
 
 
@@ -42,6 +43,7 @@ app.use('/auth', authRoutes)
 app.use('/scores', scoresRoutes)
 app.use('/users', userRoutes)
 app.use('/entries', entriesRoutes)
+app.use('/track', trackRoutes)
 
 // tell express server to run on port 4001 (for development only)
 app.listen(port, () => console.log(`Server listening on port ${port}`))

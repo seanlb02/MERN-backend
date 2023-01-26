@@ -1,5 +1,5 @@
 import express from "express";
-import { newScore, getLastScore, getAllScores} from '../controllers/score_controllers.js'
+import { newScore, getLastScore, getAllScores, getMonthsScores} from '../controllers/score_controllers.js'
 import { authenticateToken, checkAdmin } from "../controllers/auth_controllers.js";
 
 
@@ -16,6 +16,8 @@ const router = express.Router();
         // route to create a new 'score' entry in the score mongoDB collection  
         router.post('/new', authenticateToken, newScore)
 
+        // route to retireve logged in user scores from the past month
+        router.get('/month', authenticateToken, getMonthsScores)
 
 // export the router 
 export default router 

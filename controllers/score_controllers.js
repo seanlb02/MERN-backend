@@ -58,9 +58,27 @@ const getAllScores = async (req, res, next) => {
 
 }
 
+    // middleware to get a list of scores from the PAST 30 days from current date 
+    const getMonthsScores = async function (req, res, next) {
+        // generate current date and the date 30 day prior 
+            const {username} = req.params.username;
+            const currentDate = new Date();
+            const past30 = currentDate.setDate(currentDate.getDate() - 30);
+            try {
+                const monthsScores = await ScoresModel.find({username: username, timestamp: {$gt: past30}}, 'timestamp score').sort({timestamp: -1}).select('-_id')
+                res.send(monthsScores);
+                next();
+            }
+            catch (err) {
+                res.send({'error': err.message});
+                next();
+            }
+    }
+
 
 export  {
     newScore,
     getLastScore,
     getAllScores,
+    getMonthsScores
 }
