@@ -61,15 +61,23 @@ const getUserEntries = async function (req, res, next) {
             }
     }
 
-    // // middleware to edit a logged-in user's post 
-    // const editEntry = async function (req, res, next) {
-
-
-    // }
+    // middleware to edit a logged-in user's post 
+    const deleteEntry = async function (req, res, next) {
+        const { username } = req.params.username;
+        const {id} = req.params.id;
+        try {
+            await EntriesModel.findOneAndDelete({username: username});
+            res.send({'success': 'entry was deleted'});
+        }
+        catch (err) {
+            res.send({'error': err.message});
+        }
+    }
 
 export {
     getUserEntries,
     postEntry,
     getDailyTag,
-    getMonthsTags
+    getMonthsTags,
+    deleteEntry
 }

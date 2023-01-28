@@ -272,6 +272,21 @@ SCORE
 ```
 {‘success’ : ‘entry added’}
 ```
+
+<em>'entries/delete/:id'</em>
+
+- Method: POST
+- args: id 
+- Authentication: token (bearer)
+- Description: logged-in user creates a new entry 
+- request body: none
+- response body: 
+
+```
+    {success: post was deleted}
+    
+```
+
  
 <em>‘entries/tags/today’</em>
 
