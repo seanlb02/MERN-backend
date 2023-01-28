@@ -11,9 +11,9 @@ const usersSchema = new mongoose.Schema({
     age: {type: Date, required: true}, // defulat format for date is: 'YYYY-MM-DD'
     memo: {type: String, required: false},
     // for the usernames that have access to this users summary
-    trackers: {type: Array, "default" : [{user:{type: String, required:false}}], required: false},
+    trackers: {type: Array, "default" : [{user:{}}], required: false},
     // for the users who's summary this user can access
-    tracking: {type: Array, "default" : [{user:{type: String, required:false}}], required: false},
+    tracking: {type: Array, "default" : [{user:{}}], required: false},
     is_admin: {type: Boolean, required: false, default: false}
 },
 { strict: 'throw' }

@@ -24,11 +24,6 @@ router.patch('/memo/update', authenticateToken, updateMemo)
 // route for logged in user to delete their account
 router.delete('/account/delete', authenticateToken, deleteSelf)
 
-// route for logged in user to add a username to their 'tracking' field
-
-
-
-// route for a username to be added to a user's 'tracker' field 
 
 // search usernames
 router.get('/search/:user', authenticateToken, searchUsernames)

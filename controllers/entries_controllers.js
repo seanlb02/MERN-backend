@@ -46,7 +46,7 @@ const getUserEntries = async function (req, res, next) {
 
     // get a list of entry tags from the PAST 30 days from current date 
     const getMonthsTags = async function (req, res, next) {
-        // generate current date and the date 30 day prior 
+        // generate current date and the date 30 days prior 
             const {username} = req.params.username;
             const currentDate = new Date();
             const past30 = currentDate.setDate(currentDate.getDate() - 30);
@@ -60,6 +60,12 @@ const getUserEntries = async function (req, res, next) {
                 next();
             }
     }
+
+    // // middleware to edit a logged-in user's post 
+    // const editEntry = async function (req, res, next) {
+
+
+    // }
 
 export {
     getUserEntries,

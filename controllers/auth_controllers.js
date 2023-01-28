@@ -40,9 +40,10 @@ import uniqueValidator from "mongoose-unique-validator"
             // build a select statement to query mongoDB User collection for the entered username
             const foundUsername = await UsersModel.find({username: `${usr}`})
             // if username does not exist in database, then return a no-data error message:
-            if (!foundUsername){
-                 return res.status(400).res.send({'message': 'Username or password is invalid'})
+            if (foundUsername.length < 1){
+                 return res.status(400).send({'message': 'Username or password is invalid'})
             }
+            
             // if userame exists in system, then check the password against the stored encrypted password
             const hashedpass = foundUsername[0].password
             const match = await bcrypt.compare(pwd, hashedpass);
@@ -64,6 +65,8 @@ import uniqueValidator from "mongoose-unique-validator"
             }
         }
             catch (error) {
+                if (error.name === TypeError)
+                    {return res.status(400).json({'message': 'Username or password is invalid'})}
                 return res.send( {'error': error.message });
                 next();
                 }

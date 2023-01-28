@@ -37,10 +37,15 @@ import  UsersModel  from "../models/Users_model.js"
     // function to delete a user from their tracker field (REVOKING ACCESS)
         const revokeAccess = async function (req, res, next) {
             const {username} = req.params.username
-            const {tracker} = req.params.user
 
             try {
-                await UsersModel.findOneAndDelete({username: username}, {trackers:{user: `${req.params.tracker}`}})
+                await UsersModel.updateOne({username: username}, {$pullAll: {trackers:[{user: `${req.params.user}`}] }})
+                await UsersModel.updateOne({username: req.params.user}, {$pullAll: {tracking:[{user: `${username}`}]}})
+                res.send(`access revoked for ${req.params.user}`)
+                next();
+            }
+            catch (err) {
+                res.send({"error": err.message})
             }
 
         }
@@ -80,7 +85,7 @@ import  UsersModel  from "../models/Users_model.js"
 
     export {
         authoriseTracker,
-        // revokeAccess,
+        revokeAccess, 
         getTrackers,
         getTracking
     }

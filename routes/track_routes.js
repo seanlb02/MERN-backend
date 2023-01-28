@@ -3,7 +3,7 @@ import express from 'express';
 // import controllers/middleware 
 
 import { authenticateToken, checkAdmin } from '../controllers/auth_controllers.js';
-import { authoriseTracker, getTrackers, getTracking,  } from '../controllers/track_ controllers.js';
+import { authoriseTracker, getTrackers, getTracking, revokeAccess } from '../controllers/track_ controllers.js';
 
 
 const router = express.Router();
@@ -23,7 +23,7 @@ router.post('/authorise/:tracker', authenticateToken, authoriseTracker)
 
 // route to revoke authorization rights for a tracker (reverse of the above endpoint) 
 
-router.delete('/revoke/:user', authenticateToken)
+router.patch('/revoke/:user', authenticateToken, revokeAccess)
 
 
 

@@ -44,7 +44,7 @@ Track  (i.e who is tracking the user)
 
 ## Endpoints 
 
-AUTH
+<u>AUTH</u>
 
 ‘/auth/register’
 
@@ -230,7 +230,7 @@ SCORE
  ```
 
 
-ENTRIES
+<u>ENTRIES</u>
 
 <em>‘entries/all’</em>
 
@@ -367,8 +367,42 @@ ENTRIES
 }
 ```
 
-ADMIN-PROTECTED 
+<u>ADMIN-PROTECTED</u>
 
+<em>'users/all'</em>
+
+- Method: GET
+- args: none
+- Authentication: token (bearer)
+- Description: returns a list of all users for admins 
+- request body: none
+- response body: 
+```
+{
+		[
+            {username: 
+            email:
+            age:
+            trackers:
+            tracking:
+            tracking:}, ...
+        ]
+}
+```
+
+<em>'users/admin/delete/:user'</em>
+
+- Method: DELETE
+- args: none
+- Authentication: token (bearer)
+- Description: admin route to delete a specified user from the db
+- request body: none
+- response body: 
+```
+{
+    {success: "user deleted from database"}
+}
+```
 
 
 ## DB Design and Schemas 
