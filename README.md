@@ -106,184 +106,226 @@ AUTH
 
 <em>‘users/data’</em>
 
-Method: GET
-args: none
-Authentication: token (bearer)
-Description: returns basic data belonging to the logged in user 
-request body: none
-response body: 
-```{
-“Username”:
+- Method: GET
+- args: none
+- Authentication: token (bearer)
+- Description: returns basic data belonging to the logged in user 
+- request body: none
+- response body: 
+```
+{
+    “Username”:
 	“Age”:
 	“Trackers”:[]
 	“Tracking”:[]
 	“Memo”:
 	
-}```
-‘users/memo/update’
-Method: PATCH
-args: none
-Authentication: token (bearer)
-Description: update’s logged-users 
-request body:
-```{
-“Memo”: (text)
-}```
-response body: 
-```{
-Success: “memo updated successfully”	
-}```
+}
+```
 
-‘users/account/delete’
-Method: PATCH
-args: none
-Authentication: token (bearer)
-Description: update’s logged-users 
-request body: none
-response body: 
-```{
+<em>‘users/memo/update’</em>
+
+- Method: PATCH
+- args: none
+- Authentication: token (bearer)
+- Description: update’s logged-users 
+- request body:
+```
+{
+“Memo”: (text)
+}
+```
+- response body: 
+```
+{
+Success: “memo updated successfully”	
+}
+```
+
+<em>‘users/account/delete’</em>
+
+- Method: PATCH
+- args: none
+- Authentication: token (bearer)
+- Description: update’s logged-users 
+- request body: none
+- response body: 
+```
+{
 Success: “account successfully deleted”	
-}```
+}
+```
 
 SCORE
-‘/scores/new’
-Method: POST
-args: none
-Authentication: token (bearer)
-Description: adds the latest score the logged in user just answered
-request body: 
-```{
+
+<em>‘/scores/new’</em>
+
+- Method: POST
+- args: none
+- Authentication: token (bearer)
+- Description: adds the latest score the logged in user just answered
+- request body: 
+```
+{
 	“username”:
 	“Timestamp”: [datetime.now()],
 	“Score”: integer 
-response body: 
-```{
+```
+- response body: 
+
+```
+{
 “Success”: “score added”
-}```
+}
+```
 
-‘scores/latest’
-Method: GET
-args: none
-Authentication: token (bearer)
-Description: retrieves the latest score the logged in user has answered
-request body: none
-response body: 
-```{
-“Current user score” :{
-			“Id: “
-			“Score”: [int]
-}```
+<em>‘scores/latest’</em>
 
-‘scores/all’
+- Method: GET
+- args: none
+- Authentication: token (bearer)
+- Description: retrieves the latest score the logged in user has answered
+- request body: none
+- response body: 
+```
+{
+        “Current user score” :{
+		“Id":
+		“Score”: [int]
+}
+```
 
-Method: GET
-args: none 
-Authentication: token (bearer)
-Description: retrieves all scores from logged in user 
-request body: none
-response body: 
-```{
+<em>‘scores/all’</em>
+
+- Method: GET
+- args: none 
+- Authentication: token (bearer)
+- Description: retrieves all scores from logged in user 
+- request body: none
+- response body: 
+```
+{
 	User scores: 
 		[{“id”:
 		“Timestamp”:
 		“Score”:}], …
-}```
-‘scores/month’
+}
+```
 
-Method: GET
-args: none 
-Authentication: token (bearer)
-Description: retrieves all scores from logged-in user from the past 30 days 
-request body: none
-response body: 
-```{
+<em>‘/scores/month’</em>
+
+- Method: GET
+- Args: none 
+- Authentication: token (bearer)
+- Description: retrieves all scores from logged-in user from the past 30 days 
+- request body: none
+- response body: 
+```
+{
 	User scores: 
 		[{“id”:
 		“Timestamp”:
 		“Score”:}], …
-}```
+}
+ ```
 
 
 ENTRIES
 
-‘entries/all’
+<em>‘entries/all’</em>
 
-Method: GET
-args: none 
-Authentication: token (bearer)
-Description: retrieves all logged-in from past 30 days 
-request body: none
-response body: 
-```{
+- Method: GET
+- args: none 
+- Authentication: token (bearer)
+- Description: retrieves all logged-in from past 30 days 
+- request body: none
+- response body: 
+```
+{
 		[{“id”:
 		“title”:
 		“Text”:
 		“Timestamp”:
 		“Tags”: []
 		}], …
-}```
+}
+```
 
-‘entries/new’
+<em>‘/entries/new’</em>
 
-Method: POST
-args: none 
-Authentication: token (bearer)
-Description: logged-in user creates a new entry 
-request body: 
-```{
+- Method: POST
+- args: none 
+- Authentication: token (bearer)
+- Description: logged-in user creates a new entry 
+- request body: 
+```
+{
 		[
 		“title”:
 		“Text”:
 		“Timestamp”:
 		“Tags”: []
 		}], …
-}```
-response body: 
-```{
+}
+```
+- response body: 
+```
 {‘success’ : ‘entry added’}
-}```
+```
  
-‘entries/tags/today’ 
-Method: GET
-args: none 
-Authentication: token (bearer)
-Description: retrieves logged-in users tags they posted the day the route is hit
-response body: 
-```{
+<em>‘entries/tags/today’</em>
+
+- Method: GET
+- args: none 
+- Authentication: token (bearer)
+- Description: retrieves logged-in users tags they posted the day the route is hit
+- response body: 
+```
+{
 		[{	“timestamp:
 			“Tags”: []
 		}], …
-}```
-‘entries/tags/month’ 
-Method: GET
-args: none 
-Authentication: token (bearer)
-Description: retrieves logged-in users tags they posted in the last 30 days
-request body: none
-response body: 
-```{
+}
+```
+<em>‘entries/tags/month’</em>
+
+- Method: GET
+- args: none 
+- Authentication: token (bearer)
+- Description: retrieves logged-in users tags they posted in the last 30 days
+- request body: none
+- response body: 
+```
+{
 		[{	“timestamp:
 			“Tags”: []
 		}], …
-}```
-TRACK
-‘track/authorise/:tracker’
-Method: POST
-args: tracker
-Authentication: token (bearer)
-Description: adds a specified user to the logged-in user’s ‘Tracker’ list, simultaneously adding the logged-in user to the specified users ‘tracking’ list.
-request body: none
-response body: 
-```{
+}
+```
+
+<u>TRACK</u>
+
+<em>‘track/authorise/:tracker’</em>
+
+- Method: POST
+- args: tracker
+- Authentication: token (bearer)
+- Description: adds a specified user to the logged-in user’s ‘Tracker’ list, simultaneously adding the logged-in user to the specified users ‘tracking’ list.
+- request body: none
+- response body: 
+```
+{
 		{success: “tracker authorised}”
-}```
-‘track/list/trackers’
-Method: GET
-args: none
-Authentication: token (bearer)
-Description: returns an array of the logged-in user’s trackers
-request body: none
-response body: 
+}
+```
+<em>‘track/list/trackers’</em>
+
+- Method: GET
+- args: none
+- Authentication: token (bearer)
+- Description: returns an array of the logged-in user’s trackers
+- request body: none
+- response body: 
 ```
 {
 		[{[
@@ -292,16 +334,16 @@ response body:
 }
 ```
 
-‘track/list/tracking’
-Method: GET
-args: none
-Authentication: token (bearer)
-Description: returns an array of who the logged-in user is currently tracking
-request body: none
-response body: 
+<em>‘track/list/tracking’</em>
+
+- Method: GET
+- args: none
+- Authentication: token (bearer)
+- Description: returns an array of who the logged-in user is currently tracking
+- request body: none
+- response body: 
 
 ```
-
 {
 		[{[
 
@@ -311,51 +353,51 @@ response body:
 }
 ```
 
-‘track/tracker/revoke’
-Method: DELETE
-args: none
-Authentication: token (bearer)
-Description: revokes tracking privileges for a specified user
-request body: none
-response body: 
-```{
+<em>‘track/tracker/revoke’</em>
+
+- Method: DELETE
+- args: none
+- Authentication: token (bearer)
+- Description: revokes tracking privileges for a specified user
+- request body: none
+- response body: 
+```
+{
 		‘Success’: ‘user no longer tracking’
-}```
+}
+```
 
 ADMIN-PROTECTED 
 
 
 
-DB Design and Schemas 
+## DB Design and Schemas 
 
 
 User: 
-_id 
-Username (string, unique)
-Password 
-age /dob
-Is_admin (boolean) 
-Trackers:
-    ARRAY [username1, username2, username3, username4]  
-Tracking: ARRAY [username2, username9, username12]
-Memo: (string 150 char)
+- _id 
+- Username (string, unique)
+- Password (bcrypt)
+- age (YYYY-MM-DD)
+- is_admin (boolean) 
+- Trackers: ARRAY   
+- Tracking: ARRAY 
+- Memo: (string, 150 char)
 
-entry: {
-_id
-Username 
-Timestamp: (datetime.now) 
-Title (string)
-Content: Text(100char)
-Emotion_Tags: 
+Entry: 
+- _id
+- Username (string, unique)
+- Timestamp (date)
+- Title (string)
+- Content: Text(150char)
+- tags ARRAY
 
-score:
-_id
-Username
-Questionaire_Score (int)
-date (date.now)
+Score:
+- _id
+- Username
+- Score (integer)
+- timestamp (date)
 
-JSON app storage:
- emotion tags (selection of 10)
-Check-in Questions (for the questionnaire) 
+
 
 
