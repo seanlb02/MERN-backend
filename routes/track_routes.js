@@ -3,27 +3,30 @@ import express from 'express';
 // import controllers/middleware 
 
 import { authenticateToken, checkAdmin } from '../controllers/auth_controllers.js';
-import { authoriseTracker } from '../controllers/track_ controllers.js';
-
-// Routes 
-
-
-// route to return user 'tracking' field 
-
-
-
-// route to return user 'tracker' field 
-
-
-
-// route to add user to tracking field (and simultaneously add logged in user to tracker's 'tracking field')
-router.get('/authorise/:user', authenticateToken, authoriseTracker);
-
-// route to revoke authorization rights for a tracker 
-
+import { authoriseTracker, getTrackers, getTracking,  } from '../controllers/track_ controllers.js';
 
 
 const router = express.Router();
+
+// route to return user 'tracking' field 
+
+router.get('/list/tracking', authenticateToken, getTracking)
+
+// route to return user 'tracker' field 
+
+router.get('/list/trackers', authenticateToken, getTrackers)
+
+
+// route to add user to tracking field (and simultaneously add logged in user to tracker's 'tracking field')
+
+router.post('/authorise/:tracker', authenticateToken, authoriseTracker)
+
+// route to revoke authorization rights for a tracker (reverse of the above endpoint) 
+
+router.delete('/revoke/:user', authenticateToken)
+
+
+
 
 
 
