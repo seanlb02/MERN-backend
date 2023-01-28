@@ -45,7 +45,7 @@ const getLastScore = async (req, res, next) => {
 
 const getAllScores = async (req, res, next) => {
         //1. deconstruct the username param sent by client within url 
-        const {username} = req.params.usernames
+        const {username} = req.params.username
         try{
             const allScores = await ScoresModel.find({username: username}, 'score timestamp').sort({timestamp: -1})
             res.send({ 'User_scores': allScores });

@@ -14,6 +14,7 @@ const router = express.Router();
 
     // returns all user tags from 'todays' date
     router.get('/tags/today', authenticateToken, getDailyTag)
+    
 
     // returns all user tags from the past 30 days
     router.get('/tags/month', authenticateToken, getMonthsTags)

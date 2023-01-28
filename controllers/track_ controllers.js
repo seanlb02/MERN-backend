@@ -23,7 +23,7 @@ import  UsersModel  from "../models/Users_model.js"
                     await UsersModel.findOneAndUpdate({username: `${username}`}, { $push: {trackers: chosenUser}})
                     // then add logged in user to username's tracking field
                     await UsersModel.findOneAndUpdate({username: `${req.params.tracker}`}, { $push: {tracking: currentUser}})
-                    res.send({success: "tracker added"})
+                    res.send({success: "tracker authorised"})
                     next();
                 }
             }
@@ -35,15 +35,15 @@ import  UsersModel  from "../models/Users_model.js"
 
 
     // function to delete a user from their tracker field (REVOKING ACCESS)
-        // const revokeAccess = async function (req, res, next) {
-        //     const {username} = req.params.username
-        //     const {tracker} = req.params.user
+        const revokeAccess = async function (req, res, next) {
+            const {username} = req.params.username
+            const {tracker} = req.params.user
 
-        //     try {
-        //         await UsersModel.findOneAndDelete({username: username}, )
-        //     }
+            try {
+                await UsersModel.findOneAndDelete({username: username}, {trackers:{user: `${req.params.tracker}`}})
+            }
 
-        // }
+        }
 
 
 

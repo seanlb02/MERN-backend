@@ -86,7 +86,6 @@ import uniqueValidator from "mongoose-unique-validator"
                 //   verify the token if exists:
                 jwt.verify(token, 'secret', (err, user) => {
                     req.params.username = user
-
                     if(err){
                         res.send({'error': err.message})
                     }
@@ -102,7 +101,6 @@ import uniqueValidator from "mongoose-unique-validator"
                     next();
                 }
                 else {return res.send({'error': 'unauthorized access'})}
-            
         }
 
 export  {

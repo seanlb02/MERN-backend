@@ -65,6 +65,7 @@ import uniqueValidator from "mongoose-unique-validator"
         const remove = await UsersModel.deleteOne({username: username})
         const removeEntries = await EntriesModel.deleteMany({username: username})
         const removeScores = await ScoresModel.deleteMany({username: username})
+        res.send("account successfully deleted")
         next()
         } 
         catch (err) {
