@@ -5,6 +5,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser'
 
 // import routes 
+import landingRoutes from './routes/landing_routes.js'
 import authRoutes from './routes/auth_routes.js'
 import scoresRoutes from './routes/score_routes.js'
 import userRoutes from './routes/user_routes.js'
@@ -39,6 +40,7 @@ mongoose.connect(process.env.ATLAS_DB_URL)
 .catch((err) => console.log(err))
 
 // set up the relative links for the Routes
+app.use('', landingRoutes)
 app.use('/auth', authRoutes)
 app.use('/scores', scoresRoutes)
 app.use('/users', userRoutes)
