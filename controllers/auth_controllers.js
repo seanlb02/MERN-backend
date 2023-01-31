@@ -17,7 +17,7 @@ import uniqueValidator from "mongoose-unique-validator"
             // 4. create the new user document (with password hashed/salted)
             try {
                 bcrypt.hash(pwd, saltRounds, async function (err, hash){
-                   await UsersModel.create({email: `${email}`, username: `${user}`, password: hash, age: `${age}`})
+                   await UsersModel.create({email: `${email}`, username: `${user}`, password: hash})
                 })
                 res.send({'success': 'new user created'})
                 next();
