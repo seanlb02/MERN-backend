@@ -35,7 +35,7 @@ app.use(bodyParser.json())
 mongoose.set('strictQuery', true)
 
 // connect mongoose to the database 
-mongoose.connect(process.env.ATLAS_DB_URL)
+mongoose.connect("mongodb+srv://seang:medic2@cluster0.ftjoush.mongodb.net/journal?retryWrites=true&w=majority")
 .then((m) => console.log(m.connection.readyState === 1 ? 'Mongoose connected!' : 'Failed to connect'))
 .catch((err) => console.log(err))
 
