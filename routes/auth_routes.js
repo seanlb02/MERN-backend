@@ -10,7 +10,6 @@ import jwt from "jsonwebtoken"
 // import controllers/middleware 
 import validator from '../middleware/validator.js';
 import { registerUser, handleLogin } from '../controllers/auth_controllers.js';
-import { UNSAFE_NavigationContext } from 'react-router-dom';
 
 const router = express.Router();
 
