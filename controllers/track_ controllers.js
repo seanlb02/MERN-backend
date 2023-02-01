@@ -29,7 +29,7 @@ import  UsersModel  from "../models/Users_model.js"
             }
             catch (err) {
                 return res.send( {'error': err.message });
-                next();
+
             }
         }
 

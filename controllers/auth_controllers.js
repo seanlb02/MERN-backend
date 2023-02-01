@@ -7,12 +7,13 @@ import jwt from "jsonwebtoken"
 import uniqueValidator from "mongoose-unique-validator"
 
 
+
         //middleware is responsible for creating a new user document 
         const registerUser = async (req, res, next) => {
             //1. deconstruct the request body sent by client 
             const { email, user, pwd} = req.body;
             //2. if client app does not send data in the request body then return an error message:
-            if (!email || !user || !pwd) return res.status(400).json({'error': 'All fields are required'})
+            if (!email || !user || !pwd) return res.status(400).send({'error': 'All fields are required'})
             // 3. generate salt, encrypt and salt the incoming password
             // 4. create the new user document (with password hashed/salted)
             try {
@@ -23,10 +24,11 @@ import uniqueValidator from "mongoose-unique-validator"
                 next();
                 } 
             catch (error) {
+                if (error instanceof mongoose.Error.ValidationError)
+                    {return res.status(400).send({'message': 'Username is already taken'})}
                 return res.send( {'error': error.message });
-                next();
+                
                 }
-            
         }
             
             

@@ -16,7 +16,7 @@ const getUserEntries = async function (req, res, next) {
     const {timestamp, title, text, tags} = req.body 
     const tagItems = [...tags]
     //If client app does not send data in the request body then return an error message:
-    if (!username || !timestamp || !title || !text || !tags) return res.status(400).json({'error': 'All fields are required'})
+    if (!username || !timestamp || !title || !text || !tags) return res.status(400).send({'error': 'All fields are required'})
     try{
         await EntriesModel.create({username: `${username}`, timestamp: `${timestamp}`, title: `${title}`, text: `${text}`, tags: tags})
         res.send({'success': 'entry added'})
@@ -30,7 +30,6 @@ const getUserEntries = async function (req, res, next) {
 
     // get a list of entry tags from the CURRENT date 
     const getDailyTag = async function (req, res, next) {
-        // generate const of the current date when the route was hit 
         const todaysDate = new Date();
         const {username} = req.params.username;
         try {

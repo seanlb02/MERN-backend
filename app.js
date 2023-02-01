@@ -21,7 +21,7 @@ dotenv.config()
 process.env.TOKEN_SECRET;
 
 const app = express();
-const port = process.env.PORT
+const port = process.env.PORT || 3000;
 
 // this middleware will take any json response from an express app route and parse it to a js object
 app.use(express.json())
@@ -47,5 +47,13 @@ app.use('/users', userRoutes)
 app.use('/entries', entriesRoutes)
 app.use('/track', trackRoutes)
 
+// error handing middlware
+app.use((err, req, res, next) => {
+    if (err.type = ValidationError)
+        {res.status(409).send({"error" : "username is already taken"})}
+    else 
+        {res.status(500).send('Something broke!')}
+  })
+
 // tell express server to run on port 4001 (for development only)
-app.listen(port, () => console.log(`Server listening on port ${port}`))
+app.listen(3001, () => console.log(`Server listening on port ${port}`))
