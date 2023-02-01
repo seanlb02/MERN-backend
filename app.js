@@ -56,4 +56,4 @@ app.use((err, req, res, next) => {
   })
 
 // tell express server to run on port 4001 (for development only)
-app.listen(3001, () => console.log(`Server listening on port ${port}`))
+app.listen(port, () => console.log(`Server listening on port ${port}`))
