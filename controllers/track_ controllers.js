@@ -27,7 +27,7 @@ import  UsersModel  from "../models/Users_model.js"
                     await UsersModel.findOneAndUpdate({username: `${username}`}, { $push: {trackers: chosenUser}})
                     // then add logged in user to username's tracking field
                     await UsersModel.findOneAndUpdate({username: `${req.params.tracker}`}, { $push: {tracking: currentUser}})
-                    res.send({})
+                    res.send(exists)
             
                 }
                 next()
