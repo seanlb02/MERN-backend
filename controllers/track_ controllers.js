@@ -13,11 +13,9 @@ import  UsersModel  from "../models/Users_model.js"
             try{
                 // check to see if tracker even exists
                 const exists = await UsersModel.find({username: req.params.tracker}, 'username')
-                if (exists.length > 0){
-                    res.status(404).send({'error': 'User does not exist'})
-                }
-                // first check if the user is already being tracked by requested tracker 
                 
+                if(!exists){res.status(404).send({'error': 'User does not exist'})}
+                // first check if the user is already being tracked by requested tracker 
                 const match = await UsersModel.find({username: `${username}`, trackers:{user: `${req.params.tracker}` }}, 'trackers')
                 const trackerArr = match.trackers
                 if(match.length > 0) 
@@ -29,7 +27,7 @@ import  UsersModel  from "../models/Users_model.js"
                     await UsersModel.findOneAndUpdate({username: `${username}`}, { $push: {trackers: chosenUser}})
                     // then add logged in user to username's tracking field
                     await UsersModel.findOneAndUpdate({username: `${req.params.tracker}`}, { $push: {tracking: currentUser}})
-                    res.send(exists)
+                    res.send({})
             
                 }
                 next()
