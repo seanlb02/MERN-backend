@@ -15,7 +15,7 @@ router.delete('/admin/delete/:user', authenticateToken, checkAdmin, deleteUser)
 // route to search all userNAMES in the database (no other data)
 router.get('/search', authenticateToken, searchUsernames)
 
-// route to get a logged in user's data (identity taken from JWT autenticator) 
+// route to get a logged in user's data 
 router.get ('/data', authenticateToken, getUserData)
  
 //  route to update a users's memo 

@@ -1,6 +1,7 @@
 import express from "express";
 import  ScoresModel  from "../models/Score_model.js"
 import uniqueValidator from "mongoose-unique-validator"
+import UsersModel from "../models/Users_model.js";
 
 
 
@@ -36,13 +37,22 @@ const getLastScore = async (req, res, next) => {
     }
     catch (error){
         res.send({ 'error': error.message });
-        next();
     }
     
     
 
 }
-// middleware function to retrieve the all questionnaire scores recorded 
+
+const getLastUserScore = async (req, res, next) => { 
+    const {username} = req.params.username
+    const {tracked} = req.params.tracked
+    const connected = await UsersModel.find({username: username, tracking: `${req.params.tracked}`})
+    res.send(connected)
+
+}
+
+
+
 
 const getAllScores = async (req, res, next) => {
         //1. deconstruct the username param sent by client within url 
@@ -81,5 +91,6 @@ export  {
     newScore,
     getLastScore,
     getAllScores,
-    getMonthsScores
+    getMonthsScores,
+    getLastUserScore
 }

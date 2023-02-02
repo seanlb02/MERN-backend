@@ -1,5 +1,5 @@
 import express from "express";
-import { newScore, getLastScore, getAllScores, getMonthsScores} from '../controllers/score_controllers.js'
+import { newScore, getLastScore, getAllScores, getMonthsScores, getLastUserScore} from '../controllers/score_controllers.js'
 import { authenticateToken, checkAdmin } from "../controllers/auth_controllers.js";
 
 
@@ -18,6 +18,9 @@ const router = express.Router();
 
         // route to retireve logged in user scores from the past month
         router.get('/month', authenticateToken, getMonthsScores)
+
+        // route to retrieve scores from a tracked user
+        router.get('/latest/:tracked', authenticateToken, getLastUserScore)
 
 // export the router 
 export default router 
