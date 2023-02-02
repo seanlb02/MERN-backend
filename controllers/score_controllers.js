@@ -46,7 +46,7 @@ const getLastScore = async (req, res, next) => {
 const getLastUserScore = async (req, res, next) => { 
     const {username} = req.params.username
     const {tracked} = req.params.tracked
-    const connected = await UsersModel.find({username: username, tracking: `${req.params.tracked}`})
+    const connected = await UsersModel.find({username: username, tracking: {user:`${req.params.tracked}`}})
     res.send(connected)
 
 }
