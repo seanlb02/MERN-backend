@@ -22,20 +22,20 @@ import  UsersModel  from "../models/Users_model.js"
                 const trackerArr = match.trackers
                 if(match.length > 0) 
                     {res.status(404).send({error: "user is already being tracked by requested tracker"})
-                    next();
+                
                 }
                 else {
                     // add username to logged in user's trackers field
                     await UsersModel.findOneAndUpdate({username: `${username}`}, { $push: {trackers: chosenUser}})
                     // then add logged in user to username's tracking field
                     await UsersModel.findOneAndUpdate({username: `${req.params.tracker}`}, { $push: {tracking: currentUser}})
-                    res.send({success: "tracker authorised"})
-                    next();
+                    res.send(exists)
+            
                 }
+                next()
             }
             catch (err) {
                 return res.send( {'error': err.message });
-
             }
         }
 
