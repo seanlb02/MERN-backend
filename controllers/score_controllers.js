@@ -45,9 +45,19 @@ const getLastScore = async (req, res, next) => {
 
 const getLastUserScore = async (req, res, next) => { 
     const {username} = req.params.username
-    const {tracked} = req.params.tracked
+
     const connected = await UsersModel.find({username: username, tracking: {user:`${req.params.tracked}`}})
-    res.send(connected)
+    const userScore = await ScoresModel.findOne({username: `${req.params.tracked}`}, 'score').sort({timestamp: -1}).select('-_id')
+s
+    try {
+        if (connected.length < 1){
+            res.status(404).send({'error': 'unauthorised'})
+        }
+        else {res.send({'userScore': userScore})}
+    }
+    catch (error) {
+        res.send({ 'error': error.message });
+    }
 
 }
 
@@ -86,11 +96,32 @@ const getAllScores = async (req, res, next) => {
             }
     }
 
+    const getUserMonthScores = async function (req, res, next) {
+        const {username} = req.params.username;
+            const currentDate = new Date();
+            const past30 = currentDate.setDate(currentDate.getDate() - 30);
+            
+            try {
+                const connected = await UsersModel.find({username: username, tracking: {user:`${req.params.tracked}`}})
+                const userMonthsScores = await ScoresModel.find({username: `${req.params.tracked}`, timestamp: {$gt: past30}}, 'timestamp score').sort({timestamp: -1}).select('-_id')
+                if (connected.length < 1){
+                    res.status(404).send({"error": "unauthorised"})
+                }
+                else {res.send(userMonthsScores)};
+            }
+            catch (err) {
+                res.send({'error': err.message});
+                next();
+            }
+    }
+
+    
 
 export  {
     newScore,
     getLastScore,
     getAllScores,
     getMonthsScores,
-    getLastUserScore
+    getLastUserScore,
+    getUserMonthScores
 }
