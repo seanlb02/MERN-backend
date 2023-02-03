@@ -85,11 +85,26 @@ import  UsersModel  from "../models/Users_model.js"
             }
         }
 
+       const validateTracker = async function(req, res, next) {
+
+            const {username} = req.params.username;
+            const {tracked} = req.params.tracked;
+            try {
+                const result = await UsersModel.find({username: username, tracking: {user: req.params.tracked}}, 'tracking')
+                res.send(result)
+            }
+            catch (err) {
+                return res.send({'error': err.message});
+            }
+
+       }
+
 
 
     export {
         authoriseTracker,
         revokeAccess, 
         getTrackers,
-        getTracking
+        getTracking,
+        validateTracker
     }

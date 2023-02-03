@@ -39,7 +39,7 @@ mongoose.connect("mongodb+srv://seang:medic2@cluster0.ftjoush.mongodb.net/journa
 .then((m) => console.log(m.connection.readyState === 1 ? 'Mongoose connected!' : 'Failed to connect'))
 .catch((err) => console.log(err))
 
-// set up the relative links for the Routes
+// set up the relative links for the Routes 
 app.use('', landingRoutes)
 app.use('/auth', authRoutes)
 app.use('/scores', scoresRoutes)
