@@ -34,7 +34,7 @@ const getUserEntries = async function (req, res, next) {
         const pastDay = currentDateTime.setDate(currentDateTime.getDate() - 1)
         const {username} = req.params.username;
         try {
-            const tag = await EntriesModel.find({username: username, timestamp: {$gte:pastDay}}, 'tags timestamp').select('-_id')
+            const tag = await EntriesModel.find({username: username, timestamp: {$gte:pastDay}}, 'tags -_id').select('-_id')
             res.send(tag);
             next();
         }
