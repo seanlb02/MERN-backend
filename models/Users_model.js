@@ -9,7 +9,7 @@ const usersSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: {type: String, required: true},
     age: {type: Date, required: false}, // defulat format for date is: 'YYYY-MM-DD'
-    memo: {type: String, required: false},
+    memo: {type: String, required: false, default: "Feel free to update your memo whenever you need"},
     // for the usernames that have access to this users summary
     trackers: {type: Array, required: false},
     // for the users who's summary this user can access
