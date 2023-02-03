@@ -86,7 +86,7 @@ const getAllScores = async (req, res, next) => {
             const currentDate = new Date();
             const past30 = currentDate.setDate(currentDate.getDate() - 30);
             try {
-                const monthsScores = await ScoresModel.find({username: username, timestamp: {$gt: past30}}, 'timestamp score').sort({timestamp: -1}).select('-_id')
+                const monthsScores = await ScoresModel.find({username: username, timestamp: {$gt: past30}}, 'timestamp score').select('-_id')
                 res.send(monthsScores);
                 next();
             }
@@ -115,7 +115,7 @@ const getAllScores = async (req, res, next) => {
             }
     }
 
-    
+
 
 export  {
     newScore,
