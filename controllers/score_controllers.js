@@ -103,7 +103,7 @@ const getAllScores = async (req, res, next) => {
             
             try {
                 const connected = await UsersModel.find({username: username, tracking: {user:`${req.params.tracked}`}})
-                const userMonthsScores = await ScoresModel.find({username: `${req.params.tracked}`, timestamp: {$gt: past30}}, 'timestamp score').sort({timestamp: -1}).select('-_id')
+                const userMonthsScores = await ScoresModel.find({username: `${req.params.tracked}`, timestamp: {$gt: past30}}, 'timestamp score').select('-_id')
                 if (connected.length < 1){
                     res.status(404).send({"error": "unauthorised"})
                 }

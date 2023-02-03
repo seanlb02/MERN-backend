@@ -1,5 +1,5 @@
 import express from "express";
-import { getUserEntries, postEntry, getDailyTag, getMonthsTags, deleteEntry } from '../controllers/entries_controllers.js'
+import { getUserEntries, postEntry, getDailyTag, getMonthsTags, deleteEntry, getUserDayTags } from '../controllers/entries_controllers.js'
 import { authenticateToken, checkAdmin } from "../controllers/auth_controllers.js";
 
 const router = express.Router();
@@ -20,6 +20,9 @@ const router = express.Router();
 
     // returns all user tags from the past 30 days
     router.get('/tags/month', authenticateToken, getMonthsTags)
+
+    // returns a specfied user's daily tags
+    router.get('/tags/day/:tracked', authenticateToken, getUserDayTags)
 
 
 

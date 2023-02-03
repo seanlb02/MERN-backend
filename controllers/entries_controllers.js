@@ -44,6 +44,22 @@ const getUserEntries = async function (req, res, next) {
         }
     }
 
+    const getUserDayTags = async function (req, res, next) {
+        const currentDateTime = new Date();
+        const pastDay = currentDateTime.setDate(currentDateTime.getDate() - 1)
+        const {username} = req.params.username;
+        
+        try {
+            const tag = await EntriesModel.find({username: req.params.tracked, timestamp: {$gte:pastDay}}, 'tags -_id').select('-_id')
+            res.send(tag);
+            next();
+        }
+        catch (err) {
+            res.send({'error': err.message});
+            next();
+        }
+    }
+
     // get a list of entry tags from the PAST 30 days from current date 
     const getMonthsTags = async function (req, res, next) {
         // generate current date and the date 30 days prior 
@@ -79,5 +95,6 @@ export {
     postEntry,
     getDailyTag,
     getMonthsTags,
-    deleteEntry
+    deleteEntry,
+    getUserDayTags
 }
