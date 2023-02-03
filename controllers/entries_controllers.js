@@ -31,7 +31,7 @@ const getUserEntries = async function (req, res, next) {
     // get a list of entry tags from the CURRENT date 
     const getDailyTag = async function (req, res, next) {
         const currentDateTime = new Date();
-        const pastDay = currentDateTime.setDate(currentDate.getDate() - 1)
+        const pastDay = currentDateTime.setDate(currentDateTime.getDate() - 1)
         const {username} = req.params.username;
         try {
             const tag = await EntriesModel.find({username: username, timestamp: {$gte:pastDay}}, 'tags timestamp').select('-_id')
