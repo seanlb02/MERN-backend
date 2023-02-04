@@ -13,7 +13,7 @@ import uniqueValidator from "mongoose-unique-validator"
     const getUserData = async function(req, res, next) {
         // note: the req.params are set by the JWT authenticator middleware! and not in the route URL
         const {username} = req.params.username
-        const userData = await UsersModel.find({username:username}).select('-_id -__v -password')
+        const userData = await UsersModel.find({username:username}).select('-_id -__v -password -trackers -tracking -email')
         res.send(userData)
         next();
     }
