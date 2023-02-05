@@ -16,9 +16,8 @@
 ```
 {
 	“email”: 
-	“usr”:
+	“user”:
 	“pwd”:
-	“age” (YYYY-MM-DD string format)
 }
 ```
 - response body:
