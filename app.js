@@ -20,7 +20,7 @@ dotenv.config()
 // Config token secret
 process.env.TOKEN_SECRET;
 
-const app = express();
+export const app = express();
 const port = process.env.PORT || 3000;
 
 // this middleware will take any json response from an express app route and parse it to a js object

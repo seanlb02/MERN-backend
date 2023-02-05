@@ -1,46 +1,5 @@
 # Back-end API endpoint documentation
 
-## Routes
-
-Auth
-Users
-Entries
-Score 
-‘/auth/register’
-‘/users/all’(admin)
-‘/entries/all’
-(GET)
-‘/scores/latest’ (GET)
-‘/auth/login’
-‘/users/account/delete ‘
-‘entries/new’ (POST)’
-‘/scores/new’ (POST)
-
-
-‘users/memo/update’
-‘entries/:id/delete’?
-‘/scores/all’ (GET)
-
-
-‘users/data’ (profile data)
-‘entries/tags/today’
-‘scores/month’ (GET)
-
-
-‘users/search/:user’
-‘entries/tags/month’
-
-
-
-Track  (i.e who is tracking the user)
-‘/track/authorise/:user’’
-1. Adds :user to logged in user’s ‘tracker’ field
-2. Adds logged in user to :users ‘tracking’ field
-‘track//trackers/remove’ (reverse of above route)
-‘/track/list/trackers’
-‘/track/list/tracking’
-
-
 
 ## Endpoints 
 
